@@ -265,7 +265,8 @@ void drawLogo(ControlPanel* game, int _x, int _y) {
     {
         for (int j = 0; j < 29; j++)
         {
-            game->gameMap[_y + i][_x + j].Char.UnicodeChar = logo[i][j];
+            if (logo[i][j] != ' ')
+                game->gameMap[_y + i][_x + j].Char.UnicodeChar = logo[i][j];
         }
     }
 }

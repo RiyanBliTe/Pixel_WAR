@@ -39,6 +39,7 @@ struct ControlPanel
     Player player;
     BulletsVector bullets;
     EnemyVector enemies;
+    EnemyVector menuEnemies;
     PowerUpVector powerUps;
     ButtonContainer buttons;
 

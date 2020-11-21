@@ -24,6 +24,7 @@ void initPanel(ControlPanel* game)
 
     initBulletsVector(&game->bullets);
     initEnemiesVector(&game->enemies);
+    initEnemiesVector(&game->menuEnemies);
     initPWUVector(&game->powerUps);
     initButtonContainer(&game->buttons);
 }
@@ -60,6 +61,11 @@ void showGame(ControlPanel* game)
     setPosButtonContainer(&game->buttons, GAME_WIDTH / 2 - game->buttons.width / 2, GAME_HEIGHT / 2 + GAME_HEIGHT / 4 - game->buttons.height / 2);
 
     Enemy enemy;
+    for (int i = 0; i < 15; i++)
+    {
+        initEnemy(&enemy, rand() % 4 + 1);
+        push_backEnemy(&game->menuEnemies, enemy);
+    }
 
     int enemyCount = 4;
 
@@ -102,7 +108,7 @@ void showGame(ControlPanel* game)
                     {
                         for (int i = 0; i < enemyCount; i++)
                         {
-                            initEnemy(&enemy, rand() % 4);
+                            initEnemy(&enemy, rand() % 4 + 1);
                             push_backEnemy(&game->enemies, enemy);
                         }
                         enemyCount++;
@@ -120,6 +126,8 @@ void showGame(ControlPanel* game)
             break;
         }
     }
+    deleteVector(&game->enemies);
+    deleteVector(&game->powerUps);
     deleteVector(&game->bullets);
     deleteBContainer(&game->buttons);
 }
@@ -196,6 +204,11 @@ void gameUpdate(ControlPanel* game)
 {
     if (game->state == MENU)
     {
+        for (int i = 0; i < game->menuEnemies.size; i++)
+        {
+            draw(game, &game->menuEnemies.enemies[i], 0);
+            updateEnemy(&game->menuEnemies.enemies[i]);
+        }
         // buttons
         for (int i = 0; i < game->buttons.size; i++)
         {
@@ -204,210 +217,226 @@ void gameUpdate(ControlPanel* game)
     }
     else if (game->state == GAME)
     {
-        if (game->player.firing)
+        if (game->player.dead)
         {
-            auto now = std::chrono::high_resolution_clock::now();
-            long elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(now - game->firingTimer).count() / 1000000;
-            if (elapsed > game->firingDelay)
-            {
-                Bullet bullet;
-                switch (game->player.weapon)
-                {
-                case 1:
-                    initBullet(&bullet, 1);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    break;
-                case 2:
-                    initBullet(&bullet, 1);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    initBullet(&bullet, 1);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    break;
-                case 3:
-                    initBullet(&bullet, 2);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    initBullet(&bullet, 2);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    break;
-                case 4:
-                    initBullet(&bullet, 3);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    initBullet(&bullet, 3);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    break;
-                case 5:
-                    initBullet(&bullet, 4);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    initBullet(&bullet, 4);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                case 6:
-                    initBullet(&bullet, 5);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    initBullet(&bullet, 5);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    break;
-                case 7:
-                    initBullet(&bullet, 5);
-                    setBulletLocation(&bullet, game->player.x, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    initBullet(&bullet, 5);
-                    setBulletLocation(&bullet, game->player.x + game->player.width / 2, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    initBullet(&bullet, 5);
-                    setBulletLocation(&bullet, game->player.x + game->player.width - 1, game->player.y);
-                    push_backBullet(&game->bullets, bullet);
-                    break;
-                default:
-                    break;
-                }
-
-                game->firingTimer = std::chrono::high_resolution_clock::now();
-            }
-        }
-
-        for (int i = 0; i < game->bullets.size; i++)
-        {
-            if (removeBullet(&game->bullets.bullets[i]))
-            {
-                draw(game, &game->bullets.bullets[i], 0);
+            for (int i = 0; game->bullets.size; i++)
                 eraseBullet(&game->bullets, i--);
-            }
-            else
-            {
-                draw(game, &game->bullets.bullets[i], 0);
-                updateBullet(&game->bullets.bullets[i]);
-            }
+            for (int i = 0; game->enemies.size; i++)
+                eraseEnemy(&game->enemies, i--);
+            for (int i = 0; game->powerUps.size; i++)
+                erasePowerUp(&game->powerUps, i--);
+            game->gameLoop = false;
+            game->state = MENU;
+            initPlayer(&game->player);
+            setPlayerLocation(&game->player, GAME_WIDTH / 2 - game->player.width / 2, GAME_HEIGHT - game->player.height - 10);
         }
-        for (int i = 0; i < game->enemies.size; i++)
+        else
         {
-            for (int j = 0; j < game->bullets.size; j++)
+            if (game->player.firing)
             {
-                if (inEnemy(&game->enemies.enemies[i], game->bullets.bullets[j].x, game->bullets.bullets[j].y))
+                auto now = std::chrono::high_resolution_clock::now();
+                long elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(now - game->firingTimer).count() / 1000000;
+                if (elapsed > game->firingDelay)
                 {
-                    switch (game->bullets.bullets[i].type) {
+                    Bullet bullet;
+                    switch (game->player.weapon)
+                    {
                     case 1:
-                        hit(&game->enemies.enemies[i], 1);
+                        initBullet(&bullet, 1);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
                         break;
                     case 2:
-                        hit(&game->enemies.enemies[i], 2);
+                        initBullet(&bullet, 1);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        initBullet(&bullet, 1);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
                         break;
                     case 3:
-                        hit(&game->enemies.enemies[i], 3);
+                        initBullet(&bullet, 2);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        initBullet(&bullet, 2);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
                         break;
                     case 4:
-                        hit(&game->enemies.enemies[i], 4);
+                        initBullet(&bullet, 3);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        initBullet(&bullet, 3);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        break;
+                    case 5:
+                        initBullet(&bullet, 4);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        initBullet(&bullet, 4);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                    case 6:
+                        initBullet(&bullet, 5);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 - 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        initBullet(&bullet, 5);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2 + 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        break;
+                    case 7:
+                        initBullet(&bullet, 5);
+                        setBulletLocation(&bullet, game->player.x, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        initBullet(&bullet, 5);
+                        setBulletLocation(&bullet, game->player.x + game->player.width / 2, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        initBullet(&bullet, 5);
+                        setBulletLocation(&bullet, game->player.x + game->player.width - 1, game->player.y);
+                        push_backBullet(&game->bullets, bullet);
+                        break;
+                    default:
                         break;
                     }
-                    game->enemies.enemies[i].uniqueColor = 0x94;
-                    draw(game, &game->bullets.bullets[j], 0);
-                    eraseBullet(&game->bullets, j);
 
-                    if (removeEnemy(&game->enemies.enemies[i]))
-                    {
-                        switch (game->enemies.enemies[i].type)
-                        {
-                        case 1: game->player.score += 1; break;
-                        case 2: game->player.score += 2; break;
-                        case 3:	game->player.score += 4; break;
-                        case 4:	game->player.score += 8; break;
-                        default: break;
-                        }
-                        double chanse = rand() * 1.0 / RAND_MAX;
-                        if (chanse < 0.15)
-                        {
-                            PowerUp pwu;
-                            initPowerUp(&pwu, HEALTH);
-                            setPowerUpLocation(&pwu, game->enemies.enemies[i].x + game->enemies.enemies[i].width / 2, game->enemies.enemies[i].y + game->enemies.enemies->height / 2);
-                            push_backPowerUp(&game->powerUps, pwu);
-                        }
-                        else if (chanse < 0.25)
-                        {
-                            PowerUp pwu;
-                            initPowerUp(&pwu, WEAPON);
-                            setPowerUpLocation(&pwu, game->enemies.enemies[i].x + game->enemies.enemies[i].width / 2, game->enemies.enemies[i].y + game->enemies.enemies->height / 2);
-                            push_backPowerUp(&game->powerUps, pwu);
-                        }
-                        draw(game, &game->enemies.enemies[i], 0);
-                        eraseEnemy(&game->enemies, i);
-                    }
+                    game->firingTimer = std::chrono::high_resolution_clock::now();
                 }
             }
-        }
 
-        for (int i = 0; i < game->enemies.size; i++)
-        {
-            if (!game->player.hit)
-                if (inEnemy(&game->enemies.enemies[i], &game->player))
+            for (int i = 0; i < game->bullets.size; i++)
+            {
+                if (removeBullet(&game->bullets.bullets[i]))
                 {
-                    hit(&game->player);
-                    game->player.uniqueColor = 0x94;
-                    hit(&game->enemies.enemies[i], 1);
-                    game->enemies.enemies[i].uniqueColor = 0x94;
-                    if (removeEnemy(&game->enemies.enemies[i]))
+                    draw(game, &game->bullets.bullets[i], 0);
+                    eraseBullet(&game->bullets, i--);
+                }
+                else
+                {
+                    draw(game, &game->bullets.bullets[i], 0);
+                    updateBullet(&game->bullets.bullets[i]);
+                }
+            }
+            for (int i = 0; i < game->enemies.size; i++)
+            {
+                for (int j = 0; j < game->bullets.size; j++)
+                {
+                    if (inEnemy(&game->enemies.enemies[i], game->bullets.bullets[j].x, game->bullets.bullets[j].y))
                     {
-                        switch (game->enemies.enemies[i].type)
-                        {
+                        switch (game->bullets.bullets[i].type) {
                         case 1:
-                            game->player.score += 1;
+                            hit(&game->enemies.enemies[i], 1);
                             break;
                         case 2:
-                            game->player.score += 2;
+                            hit(&game->enemies.enemies[i], 2);
                             break;
                         case 3:
-                            game->player.score += 4;
+                            hit(&game->enemies.enemies[i], 3);
                             break;
                         case 4:
-                            game->player.score += 8;
-                            break;
-                        default:
+                            hit(&game->enemies.enemies[i], 4);
                             break;
                         }
-                        draw(game, &game->enemies.enemies[i], 0);
-                        eraseEnemy(&game->enemies, i--);
+                        game->enemies.enemies[i].uniqueColor = 0x94;
+                        draw(game, &game->bullets.bullets[j], 0);
+                        eraseBullet(&game->bullets, j);
+
+                        if (removeEnemy(&game->enemies.enemies[i]))
+                        {
+                            switch (game->enemies.enemies[i].type)
+                            {
+                            case 1: game->player.score += 1; break;
+                            case 2: game->player.score += 2; break;
+                            case 3:	game->player.score += 4; break;
+                            case 4:	game->player.score += 8; break;
+                            default: break;
+                            }
+                            double chanse = rand() * 1.0 / RAND_MAX;
+                            if (chanse < 0.15)
+                            {
+                                PowerUp pwu;
+                                initPowerUp(&pwu, HEALTH);
+                                setPowerUpLocation(&pwu, game->enemies.enemies[i].x + game->enemies.enemies[i].width / 2, game->enemies.enemies[i].y + game->enemies.enemies->height / 2);
+                                push_backPowerUp(&game->powerUps, pwu);
+                            }
+                            else if (chanse < 0.25)
+                            {
+                                PowerUp pwu;
+                                initPowerUp(&pwu, WEAPON);
+                                setPowerUpLocation(&pwu, game->enemies.enemies[i].x + game->enemies.enemies[i].width / 2, game->enemies.enemies[i].y + game->enemies.enemies->height / 2);
+                                push_backPowerUp(&game->powerUps, pwu);
+                            }
+                            draw(game, &game->enemies.enemies[i], 0);
+                            eraseEnemy(&game->enemies, i);
+                        }
                     }
                 }
-        }
-
-        for (int i = 0; i < game->powerUps.size; i++)
-        {
-            if (inPlayer(&game->player, game->powerUps.pwus[i].x, game->powerUps.pwus[i].y))
-            {
-                if (game->powerUps.pwus[i].type == HEALTH) game->player.lives++;
-                else if (game->powerUps.pwus[i].type == WEAPON && game->player.weapon < 7) game->player.weapon++;
-                draw(game, &game->powerUps.pwus[i], 0);
-                erasePowerUp(&game->powerUps, i);
             }
-            else if (removePowerUp(&game->powerUps.pwus[i]))
-            {
-                draw(game, &game->powerUps.pwus[i], 0);
-                erasePowerUp(&game->powerUps, i);
-            }
-            else
-            {
-                draw(game, &game->powerUps.pwus[i], 0);
-                updatePowerUp(&game->powerUps.pwus[i]);
-            }
-        }
 
-        for (int i = 0; i < game->enemies.size; i++)
-        {
-            draw(game, &game->enemies.enemies[i], 0);
-            updateEnemy(&game->enemies.enemies[i]);
-        }
+            for (int i = 0; i < game->enemies.size; i++)
+            {
+                if (!game->player.hit)
+                    if (inEnemy(&game->enemies.enemies[i], &game->player))
+                    {
+                        hit(&game->player);
+                        game->player.uniqueColor = 0x94;
+                        hit(&game->enemies.enemies[i], 1);
+                        game->enemies.enemies[i].uniqueColor = 0x94;
+                        if (removeEnemy(&game->enemies.enemies[i]))
+                        {
+                            switch (game->enemies.enemies[i].type)
+                            {
+                            case 1:
+                                game->player.score += 1;
+                                break;
+                            case 2:
+                                game->player.score += 2;
+                                break;
+                            case 3:
+                                game->player.score += 4;
+                                break;
+                            case 4:
+                                game->player.score += 8;
+                                break;
+                            default:
+                                break;
+                            }
+                            draw(game, &game->enemies.enemies[i], 0);
+                            eraseEnemy(&game->enemies, i--);
+                        }
+                    }
+            }
 
-        draw(game, &game->player, 0);
-        updatePlayer(&game->player);
+            for (int i = 0; i < game->powerUps.size; i++)
+            {
+                if (inPlayer(&game->player, game->powerUps.pwus[i].x, game->powerUps.pwus[i].y))
+                {
+                    if (game->powerUps.pwus[i].type == HEALTH) game->player.lives++;
+                    else if (game->powerUps.pwus[i].type == WEAPON && game->player.weapon < 7) game->player.weapon++;
+                    draw(game, &game->powerUps.pwus[i], 0);
+                    erasePowerUp(&game->powerUps, i);
+                }
+                else if (removePowerUp(&game->powerUps.pwus[i]))
+                {
+                    draw(game, &game->powerUps.pwus[i], 0);
+                    erasePowerUp(&game->powerUps, i);
+                }
+                else
+                {
+                    draw(game, &game->powerUps.pwus[i], 0);
+                    updatePowerUp(&game->powerUps.pwus[i]);
+                }
+            }
+
+            for (int i = 0; i < game->enemies.size; i++)
+            {
+                draw(game, &game->enemies.enemies[i], 0);
+                updateEnemy(&game->enemies.enemies[i]);
+            }
+
+            draw(game, &game->player, 0);
+            updatePlayer(&game->player);
+        }
     }
 }
 
@@ -415,11 +444,14 @@ void gameRender(ControlPanel* game)
 {
     if (game->state == MENU)
     {
+        for (int i = 0; i < game->menuEnemies.size; i++)
+            draw(game, &game->menuEnemies.enemies[i], 1);
         // buttons
         for (int i = 0; i < game->buttons.size; i++)
         {
             draw(game, &game->buttons.buttons[i], 1);
         }
+        drawLogo(game, GAME_WIDTH / 2 - 29 / 2 - 1, GAME_HEIGHT / 4 - 18 / 2 + 5);
     }
     else if (game->state == GAME)
     {
