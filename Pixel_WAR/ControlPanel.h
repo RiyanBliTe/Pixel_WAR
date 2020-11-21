@@ -9,51 +9,65 @@
 #include "Bullet.h"
 #include "EnemyVector.h"
 #include "Enemy.h"
-#include "Button.h"
 #include "PowerUpVector.h"
 #include "PowerUp.h"
+#include "ButtonContainer.h"
+#include "Button.h"
 
 #include <Windows.h>
 #include <chrono>
 
+enum STATES { MENU, GAME };
+
+/// The main structure for controlling the game "PixiWar".
 struct ControlPanel
 {
-	bool mainLoop;
-	bool menuLoop;
-	bool gameLoop;
-	bool playerRedraw;
+    bool mainLoop;
+    bool menuLoop;
+    bool gameLoop;
+    bool playerRedraw;
+    bool gamePressed;
 
-	std::chrono::steady_clock::time_point timer;
-	std::chrono::steady_clock::time_point firingTimer;
-	long firingDelay;
-	
-	enum STATES { MENU, GAME } state;
+    int gameCount;
 
-	Player player;
-	BulletsVector bullets;
-	EnemyVector enemies;
-	PowerUpVector powerUps;
+    std::chrono::high_resolution_clock::time_point timer;
+    std::chrono::high_resolution_clock::time_point firingTimer;
+    long firingDelay;
 
-	WORD gameColor;
-	WORD hitColor;
-	CHAR_INFO gameMap[GAME_HEIGHT][GAME_WIDTH];
+    STATES state;
+
+    Player player;
+    BulletsVector bullets;
+    EnemyVector enemies;
+    PowerUpVector powerUps;
+    ButtonContainer buttons;
+
+    WORD gameColor;
+    WORD hitColor;
+    CHAR_INFO gameMap[GAME_HEIGHT][GAME_WIDTH];
 };
 
+/// Set initial values and allocate memory for all game data structures.
+/// \param game - reference to the ControlPanel structure
 void initPanel(ControlPanel* game);
+
+/// Start of the game life cycle.
+/// \param game - reference to the ControlPanel structure
 void showGame(ControlPanel* game);
+
+/// Set size and position of the game console.
 void consoleSettings();
+
+/// Check the activity of the keyboard keys.
+/// \param game - reference to the ControlPanel structure
 void checkKeys(ControlPanel* game);
 
+/// Calculations of interaction of game objects.
+/// \param game - reference to the ControlPanel structure
 void gameUpdate(ControlPanel* game);
-void gameRender(ControlPanel* game);
 
-void drawPanels(ControlPanel* game);
-void drawText(ControlPanel* game, const char* text, int _x, int _y);
-void drawInt(ControlPanel* game, int num, int _x, int _y);
-void draw(ControlPanel* game, Player* player, bool type);
-void draw(ControlPanel* game, Bullet* bullet, bool type);
-void draw(ControlPanel* game, Enemy* enemy, bool type);
-void draw(ControlPanel* game, Button* button);
-void draw(ControlPanel* game, PowerUp* pwu, bool type);
+/// Painting game objects.
+/// \param game - reference to the ControlPanel structure
+void gameRender(ControlPanel* game);
 
 #endif // !CONTROLPANEL_H

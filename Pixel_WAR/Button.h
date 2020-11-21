@@ -4,23 +4,39 @@
 #include <Windows.h>
 #include <chrono>
 
+/// Game button struct.
 struct Button
 {
-	int x;
-	int y;
+    int x;
+    int y;
 
-	int width;
-	int height;
+    int width;
+    int height;
 
-	char* title;
+    bool isActive;
 
-	std::chrono::steady_clock::time_point timer;
+    char* title;
 
-	WCHAR** BUTTON_MAP;
+    std::chrono::high_resolution_clock::time_point timer;
+
+    WORD uniqueColor;
+    WCHAR** BUTTON_MAP;
+    WCHAR** BUTTON_EMPTY_MAP;
 };
 
+/// Set initial values and allocate memory for button structure.
+/// \param button - reference to the Button structure
+/// \param title - button text
 void initButton(Button* button, const char* title);
+
+/// Set new button position.
+/// \param button - reference to the Button structure
+/// \param _x - new X position
+/// \param _y - new Y position
 void setPosition(Button* button, int _x, int _y);
-void titleCop(char* title, const char* arr);
+
+/// Free button memory.
+/// \param button - reference to the Button structure
+void deleteButton(Button* button);
 
 #endif // !BUTTON_H

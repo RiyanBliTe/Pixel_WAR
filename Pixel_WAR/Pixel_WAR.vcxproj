@@ -22,9 +22,11 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletsVector.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonContainer.cpp" />
     <ClCompile Include="ControlPanel.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyVector.cpp" />
+    <ClCompile Include="GameDrawing.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="PowerUpVector.cpp" />
@@ -34,9 +36,11 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletsVector.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonContainer.h" />
     <ClInclude Include="ControlPanel.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyVector.h" />
+    <ClInclude Include="GameDrawing.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="PowerUpVector.h" />
