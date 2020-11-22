@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include "GameDrawing.h"
-#include <iostream>
 
 void initPanel(ControlPanel* game)
 {
