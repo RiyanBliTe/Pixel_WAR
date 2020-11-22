@@ -3,7 +3,9 @@
 
 #include "Bullet.h"
 
+/// <summary>
 /// Structure for bullets.
+/// </summary>
 struct BulletsVector
 {
     int size;
@@ -11,22 +13,30 @@ struct BulletsVector
     Bullet* bullets;
 };
 
+/// <summary>
 /// Set initial values and allocate memory for bullets vector.
-/// \param vector - reference to the BulletsVector structure
+/// </summary>
+/// <param name="vector"> - reference to the BulletsVector structure</param>
 void initBulletsVector(BulletsVector* vector);
 
+/// <summary>
 /// Add new bullet structure to the vector.
-/// \param vector - reference to the BulletsVector structure
-/// \param bullet - new Bullet structure
+/// </summary>
+/// <param name="vector"> - reference to the BulletsVector structure</param>
+/// <param name="bullet"> - new Bullet structure</param>
 void push_backBullet(BulletsVector* vector, Bullet bullet);
 
+/// <summary>
 /// Delete bullet structure from the vector in position.
-/// \param vector - reference to the BulletsVector structure
-/// \param pos - position need to remove
+/// </summary>
+/// <param name="vector"> - reference to the BulletsVector structure</param>
+/// <param name="pos"> - position need to remove</param>
 void eraseBullet(BulletsVector* vector, int pos);
 
+/// <summary>
 /// Free vector memory.
-/// \param vector - reference to the BulletsVector structure
+/// </summary>
+/// <param name="vector"> - reference to the BulletsVector structure</param>
 void deleteVector(BulletsVector* vector);
 
 #endif // !BULLETSVECTOR_H

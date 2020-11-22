@@ -3,8 +3,9 @@
 
 #include <Windows.h>
 #include <chrono>
-
-/// Game player struct
+/// <summary>
+/// Game player struct.
+/// </summary>
 struct Player
 {
     int x;
@@ -33,29 +34,39 @@ struct Player
     WORD** PLAYER_COLOR_MAP;
 };
 
+/// <summary>
 /// Set initial values and allocate memory for player structure.
-/// \param player - reference to the Player structure
+/// </summary>
+/// <param name="player"> - reference to the Player structure</param>
 void initPlayer(Player* player);
 
+/// <summary>
 /// Set new player position.
-/// \param player - reference to the Player structure
-/// \param _x - new X position
-/// \param _y - new Y position
+/// </summary>
+/// <param name="player"> - reference to the Player structure</param>
+/// <param name="_x"> - new X position</param>
+/// <param name="_y"> - new Y position</param>
 void setPlayerLocation(Player* player, int _x, int _y);
 
+/// <summary>
 /// Calculation of the player's position.
-/// \param player - reference to the Player structure
+/// </summary>
+/// <param name="player"> - reference to the Player structure</param>
 void updatePlayer(Player* player);
 
+/// <summary>
 /// Do a hit player and start a hitTimer.
-/// \param player - reference to the Player structure
+/// </summary>
+/// <param name="player"> - reference to the Player structure</param>
 void hit(Player* player);
 
+/// <summary>
 /// A check or point exists in the player field.
-/// \param player - reference to the Player structure
-/// \param _x - X need to check
-/// \param _y - Y need to check
-/// \return true - if point exist in player field, else - if don`t
+/// </summary>
+/// <param name="player"> - reference to the Player structure</param>
+/// <param name="_x"> - X need to check</param>
+/// <param name="_y"> - Y need to check</param>
+/// <returns>true - if point exist in player field, else - if don`t</returns>
 bool inPlayer(Player* player, int _x, int _y);
 
 #endif // !PLAYER_H

@@ -19,7 +19,9 @@
 
 enum STATES { MENU, GAME };
 
+/// <summary>
 /// The main structure for controlling the game "PixiWar".
+/// </summary>
 struct ControlPanel
 {
     bool mainLoop;
@@ -48,27 +50,39 @@ struct ControlPanel
     CHAR_INFO gameMap[GAME_HEIGHT][GAME_WIDTH];
 };
 
+/// <summary>
 /// Set initial values and allocate memory for all game data structures.
-/// \param game - reference to the ControlPanel structure
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
 void initPanel(ControlPanel* game);
 
+/// <summary>
 /// Start of the game life cycle.
-/// \param game - reference to the ControlPanel structure
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
 void showGame(ControlPanel* game);
 
+/// <summary>
 /// Set size and position of the game console.
+/// </summary>
 void consoleSettings();
 
+/// <summary>
 /// Check the activity of the keyboard keys.
-/// \param game - reference to the ControlPanel structure
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
 void checkKeys(ControlPanel* game);
 
+/// <summary>
 /// Calculations of interaction of game objects.
-/// \param game - reference to the ControlPanel structure
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
 void gameUpdate(ControlPanel* game);
 
+/// <summary>
 /// Painting game objects.
-/// \param game - reference to the ControlPanel structure
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
 void gameRender(ControlPanel* game);
 
 #endif // !CONTROLPANEL_H

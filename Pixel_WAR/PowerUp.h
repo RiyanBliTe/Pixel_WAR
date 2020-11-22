@@ -3,10 +3,14 @@
 
 #include <Windows.h>
 
-/// PowerUp type
+/// <summary>
+/// PowerUp type.
+/// </summary>
 enum PU_TYPE { HEALTH, WEAPON };
 
+/// <summary>
 /// PowerUp structure.
+/// </summary>
 struct PowerUp
 {
     int x;
@@ -20,24 +24,32 @@ struct PowerUp
     WCHAR EMPTY_SYMBOL;
 };
 
+/// <summary>
 /// Set initial values and allocate memory for PowerUp structure.
-/// \param pwu - reference to the PowerUp structure
-/// \param type - type of PowerUp
+/// </summary>
+/// <param name="pwu"> - reference to the PowerUp structure</param>
+/// <param name="type"> - type of PowerUp</param>
 void initPowerUp(PowerUp* pwu, PU_TYPE type);
 
+/// <summary>
 /// Calculating powerUp moving.
-/// \param pwu - reference to the Bullet structure
+/// </summary>
+/// <param name="pwu"> - reference to the Bullet structure</param>
 void updatePowerUp(PowerUp* pwu);
 
+/// <summary>
 /// Set new location to powerUp.
-/// \param pwu - reference to the Bullet structure
-/// \param _x - new X location
-/// \param _y - new Y location
+/// </summary>
+/// <param name="pwu"> - reference to the Bullet structure</param>
+/// <param name="_x"> - new X location</param>
+/// <param name="_y"> - new Y location</param>
 void setPowerUpLocation(PowerUp* pwu, int _x, int _y);
 
+/// <summary>
 /// Check if need to delete powerUp.
-/// \param pwu - reference to the Bullet structure
-/// \return true - if out of screen
+/// </summary>
+/// <param name="pwu"> - reference to the Bullet structure</param>
+/// <returns>true - if out of screen</returns>
 bool removePowerUp(PowerUp* pwu);
 
 #endif // !POWERUP_H

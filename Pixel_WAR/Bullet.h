@@ -9,7 +9,9 @@
 #define BULLET_COLOR_4 0x91
 #define BULLET_COLOR_5 0x94
 
+/// <summary>
 /// Bullet structure.
+/// </summary>
 struct Bullet
 {
     int x;
@@ -21,24 +23,32 @@ struct Bullet
     WCHAR EMPTY_BULLET;
 };
 
+/// <summary>
 /// Set initial values and allocate memory for bullet structure.
-/// \param bullet - reference to the Bullet structure
-/// \param type - bullet color-type
+/// </summary>
+/// <param name="bullet"> - reference to the Bullet structure</param>
+/// <param name="type"> - bullet color-type</param>
 void initBullet(Bullet* bullet, int type);
 
+/// <summary>
 /// Set new bullet position.
-/// \param bullet - reference to the Bullet structure
-/// \param _x - new X position
-/// \param _y - new Y position
+/// </summary>
+/// <param name="bullet"> - reference to the Bullet structure</param>
+/// <param name="_x"> - new X position</param>
+/// <param name="_y"> - new Y position</param>
 void setBulletLocation(Bullet* bullet, int _x, int _y);
 
+/// <summary>
 /// Calculation of the player's position.
-/// \param bullet - reference to the Bullet structure
+/// </summary>
+/// <param name="bullet"> - reference to the Bullet structure</param>
 void updateBullet(Bullet* bullet);
 
+/// <summary>
 /// Check bullet y less then game screen
-/// \param bullet - reference to the Bullet structure
-/// \return true - if bullet is out of screen range
+/// </summary>
+/// <param name="bullet"> - reference to the Bullet structure</param>
+/// <returns>true - if bullet is out of screen range</returns>
 bool removeBullet(Bullet* bullet);
 
 #endif // !BULLET_H

@@ -3,7 +3,9 @@
 
 #include "PowerUp.h"
 
+/// <summary>
 /// Structure for powerUps.
+/// </summary>
 struct PowerUpVector
 {
     int size;
@@ -11,22 +13,30 @@ struct PowerUpVector
     PowerUp* pwus;
 };
 
+/// <summary>
 /// Set initial values and allocate memory for powerUps vector.
-/// \param vector - reference to the PowerUpVector structure
+/// </summary>
+/// <param name="vector"> - reference to the PowerUpVector structure</param>
 void initPWUVector(PowerUpVector* vector);
 
+/// <summary>
 /// Add new powerUp structure to the vector.
-/// \param vector - reference to the BulletsVector structure
-/// \param pwu - new powerUp structure
+/// </summary>
+/// <param name="vector"> - reference to the BulletsVector structure</param>
+/// <param name="pwu"> - new powerUp structure</param>
 void push_backPowerUp(PowerUpVector* vector, PowerUp pwu);
 
+/// <summary>
 /// Delete powerUp structure from the vector in position.
-/// \param vector - reference to the BulletsVector structure
-/// \param pos - position need to remove
+/// </summary>
+/// <param name="vector"> - reference to the BulletsVector structure</param>
+/// <param name="pos"> - position need to remove</param>
 void erasePowerUp(PowerUpVector* vector, int pos);
 
+/// <summary>
 /// Free vector memory.
-/// \param vector - reference to the BulletsVector structure
+/// </summary>
+/// <param name="vector"> - reference to the BulletsVector structure</param>
 void deleteVector(PowerUpVector* vector);
 
 #endif // !POWERUPVECTOR_H

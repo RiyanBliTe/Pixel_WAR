@@ -16,58 +16,76 @@
 #include "ControlPanel.h"
 #include "Button.h"
 
+/// <summary>
 /// Drawing the game frame relative to the game state.
-/// \param game - reference to the ControlPanel structure
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
 void drawPanels(ControlPanel* game);
 
+/// <summary>
 /// Draw text in x and y positions.
-/// \param game - reference to the ControlPanel structure
-/// \param text - the text you need to draw
-/// \param _x - X position
-/// \param _y - Y position
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="text"> - the text you need to draw</param>
+/// <param name="_x"> - X position</param>
+/// <param name="_y"> - Y position</param>
 void drawText(ControlPanel* game, const char* text, int _x, int _y);
 
+/// <summary>
 /// Draw numeric in x and y positions.
-/// \param game - reference to the ControlPanel structure
-/// \param num - the numeric you need to draw
-/// \param _x - X position
-/// \param _y - Y position
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="num"> - the numeric you need to draw</param>
+/// <param name="_x"> - X position</param>
+/// <param name="_y"> - Y position</param>
 void drawInt(ControlPanel* game, int num, int _x, int _y);
 
+/// <summary>
 /// Draw player.
-/// \param game - reference to the ControlPanel structure
-/// \param player - reference to the Player structure
-/// \param type - type of button (1 - full, 0 - empty)
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="player"> - reference to the Player structure</param>
+/// <param name="type"> - type of button (1 - full, 0 - empty)</param>
 void draw(ControlPanel* game, Player* player, bool type);
 
+/// <summary>
 /// Draw bullet.
-/// \param game - reference to the ControlPanel structure
-/// \param bullet - reference to the Bullet structure
-/// \param type - type of button (1 - full, 0 - empty)
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="bullet"> - reference to the Bullet structure</param>
+/// <param name="type"> - type of button (1 - full, 0 - empty)</param>
 void draw(ControlPanel* game, Bullet* bullet, bool type);
 
+/// <summary>
 /// Draw enemy.
-/// \param game - reference to the ControlPanel structure
-/// \param enemy - reference to the Enemy structure
-/// \param type - type of button (1 - full, 0 - empty)
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="enemy"> - reference to the Enemy structure</param>
+/// <param name="type"> - type of button (1 - full, 0 - empty)</param>
 void draw(ControlPanel* game, Enemy* enemy, bool type);
 
+/// <summary>
 /// Draw button.
-/// \param game - reference to the ControlPanel structure
-/// \param button - reference to the Button structure
-/// \param type - type of button (1 - full, 0 - empty)
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="button"> - reference to the Button structure</param>
+/// <param name="type"> - type of button (1 - full, 0 - empty)</param>
 void draw(ControlPanel* game, Button* button, bool type);
 
-///  Draw powerUp.
-/// \param game - reference to the ControlPanel structure
-/// \param pwu - reference to the powerUp structure
-/// \param type - type of button (1 - full, 0 - empty)
+/// <summary>
+/// Draw powerUp.
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="pwu"> - reference to the powerUp structure</param>
+/// <param name="type"> - type of button (1 - full, 0 - empty)</param>
 void draw(ControlPanel* game, PowerUp* pwu, bool type);
 
+/// <summary>
 /// Draw game logotype.
-/// \param game - reference to the ControlPanel structure
-/// \param _x - X position
-/// \param _y - Y position
+/// </summary>
+/// <param name="game"> - reference to the ControlPanel structure</param>
+/// <param name="_x"> - X position</param>
+/// <param name="_y"> - Y position</param>
 void drawLogo(ControlPanel* game, int _x, int _y);
 
 #endif // !GAMEDRAWING_H

@@ -4,7 +4,9 @@
 #include "Button.h"
 #include <chrono>
 
-/// Container for the buttons
+/// <summary>
+/// Container for the buttons.
+/// </summary>
 struct ButtonContainer
 {
     int x;
@@ -22,28 +24,38 @@ struct ButtonContainer
     Button* buttons;
 };
 
+/// <summary>
 /// Set initial values and allocate memory for ButtonContainer structure.
-/// \param buttons - reference to the ButtonContainer structure
+/// </summary>
+/// <param name="buttons"> - reference to the ButtonContainer structure</param>
 void initButtonContainer(ButtonContainer* buttons);
 
+/// <summary>
 /// Set new position to the ButtonContainer.
-/// \param buttons - reference to the ButtonContainer structure
-/// \param _x - new X position
-/// \param _y - new Y position
+/// </summary>
+/// <param name="buttons"> - reference to the ButtonContainer structure</param>
+/// <param name="_x"> - new X position</param>
+/// <param name="_y"> - new Y position</param>
 void setPosButtonContainer(ButtonContainer* buttons, int _x, int _y);
 
+/// <summary>
 /// Add a button to the end of the container.
-/// \param buttons - reference to the ButtonContainer structure
-/// \param button - button structure
+/// </summary>
+/// <param name="buttons"> - reference to the ButtonContainer structure</param>
+/// <param name="button"> - button structure</param>
 void addButton(ButtonContainer* buttons, Button button);
 
+/// <summary>
 /// Remove the button from the specific position of the container.
-/// \param buttons - reference to the ButtonContainer structure
-/// \param pos - position in container
+/// </summary>
+/// <param name="buttons"> - reference to the ButtonContainer structure</param>
+/// <param name="pos"> - position in container</param>
 void removeButtonFromContainer(ButtonContainer* buttons, int pos);
 
+/// <summary>
 /// Free ButtonContainer memory.
-/// \param buttons - reference to the ButtonContainer structure
+/// </summary>
+/// <param name="buttons"> - reference to the ButtonContainer structure</param>
 void deleteBContainer(ButtonContainer* buttons);
 
 #endif // !BUTTONCONTAINER_H
