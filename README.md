@@ -14,6 +14,6 @@ The main game works on the following keys:
 
 ![Alt Text](https://github.com/RiyanBliTe/Pixel_WAR/blob/master/images/game_proc.gif)
 
-Each color of the enemy gives him a different amount of health. When the enemy dies, there is a chance of losing extra life or improving weapons.
+Each color of the enemy gives him a different amount of health. When an enemy dies, there is a chance of extra life or improved weapons.
 
 ![Alt Text](https://github.com/RiyanBliTe/Pixel_WAR/blob/master/images/pwu.gif)
