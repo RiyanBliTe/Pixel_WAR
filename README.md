@@ -13,3 +13,7 @@ The main game works on the following keys:
 - _escape_ — access to the main menu
 
 ![Alt Text](https://github.com/RiyanBliTe/Pixel_WAR/blob/master/images/game_proc.gif)
+
+Each color of the enemy gives him a different amount of health. When the enemy dies, there is a chance of losing extra life or improving weapons.
+
+![Alt Text](https://github.com/RiyanBliTe/Pixel_WAR/blob/master/images/pwu.gif)
